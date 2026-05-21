@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngân hàng XYZ - Công cụ tính lãi tiền gửi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .calculator-card { max-width: 500px; margin: 50px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
+        .btn-calculate { background-color: #007bff; color: white; width: 100%; font-weight: bold; }
+        .result-box { margin-top: 20px; padding: 15px; border-radius: 10px; background-color: #e9ecef; display: none; }
+        .header-bank { color: #007bff; text-align: center; margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="calculator-card">
+        <h2 class="header-bank">NGÂN HÀNG XYZ</h2>
+        <h5 class="text-center mb-4">Tính lãi suất tiền gửi tiết kiệm</h5>
+        
+        <div class="mb-3">
+            <label class="form-label">Số tiền gửi (VNĐ)</label>
+            <input type="number" id="principal" class="form-control" placeholder="Ví dụ: 100000000">
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Kỳ hạn (tháng)</label>
+            <input type="number" id="months" class="form-control" placeholder="Ví dụ: 12">
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Lãi suất (%/năm)</label>
+            <input type="number" step="0.1" id="interestRate" class="form-control" placeholder="Ví dụ: 6.5">
+        </div>
+
+        <button onclick="calculateInterest()" class="btn btn-calculate">TÍNH TOÁN</button>
+
+        <div id="result" class="result-box">
+            <p>Tiền lãi: <strong id="interestAmount" class="text-danger">0</strong> VNĐ</p>
+            <p>Tổng gốc + lãi: <strong id="totalAmount" class="text-primary">0</strong> VNĐ</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateInterest() {
+        const p = parseFloat(document.getElementById('principal').value);
+        const t = parseFloat(document.getElementById('months').value);
+        const r = parseFloat(document.getElementById('interestRate').value);
+
+        if (isNaN(p) || isNaN(t) || isNaN(r)) {
+            alert("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
+
+        // Công thức tính lãi đơn: Tiền lãi = Gốc * Lãi suất/12 * Số tháng
+        const interest = Math.round(p * (r / 100 / 12) * t);
+        const total = p + interest;
+
+        document.getElementById('interestAmount').innerText = interest.toLocaleString('vi-VN');
+        document.getElementById('totalAmount').innerText = total.toLocaleString('vi-VN');
+        document.getElementById('result').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
